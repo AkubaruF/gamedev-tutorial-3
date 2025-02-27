@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://bny58rti010v3"]
+
+[ext_resource type="Texture2D" uid="uid://dabdx15lfberv" path="res://assets/kenney_platformercharacters/PNG/Player/Poses/player_stand.png" id="1_ngxef"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ospni"]
+size = Vector2(60, 96)
+
+[node name="Player" type="CharacterBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_ngxef")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 7)
+shape = SubResource("RectangleShape2D_ospni")
