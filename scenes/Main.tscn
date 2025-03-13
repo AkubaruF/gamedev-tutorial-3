@@ -1,20 +1,90 @@
-[gd_scene load_steps=4 format=3 uid="uid://dsyfep1odrxje"]
+[gd_scene load_steps=11 format=3 uid="uid://dsyfep1odrxje"]
 
 [ext_resource type="PackedScene" uid="uid://dvmkl8164suc6" path="res://scenes/Ground.tscn" id="1"]
+[ext_resource type="Texture2D" uid="uid://mwgj8tfehj2o" path="res://assets/TinySwords/black.jpg" id="1_jgvri"]
+[ext_resource type="AudioStream" uid="uid://dyym3oxo3rf5t" path="res://assets/sound/assets_sound_bgm.wav" id="1_t7y0s"]
+[ext_resource type="Script" path="res://scenes/audio_stream_player_2d.gd" id="2_1pxgl"]
 [ext_resource type="PackedScene" uid="uid://bny58rti010v3" path="res://scenes/Player.tscn" id="2_hucc5"]
-[ext_resource type="Script" path="res://scenes/Player.gd" id="3_cblhg"]
+[ext_resource type="PackedScene" uid="uid://j2tp5fxslvu2" path="res://scenes/Tree.tscn" id="5_8aen3"]
+[ext_resource type="Texture2D" uid="uid://ctq5cf5losvme" path="res://assets/TinySwords/16.png" id="6_c2nif"]
+[ext_resource type="Script" path="res://scenes/summoner.gd" id="7_112wt"]
+[ext_resource type="AudioStream" uid="uid://hj02kp4jxs2f" path="res://assets/sound/bgm.wav" id="8_cl3ng"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vetux"]
+size = Vector2(56, 101)
 
 [node name="Root" type="Node2D"]
 
-[node name="Ground" parent="." instance=ExtResource("1")]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(590, 554)
+stream = ExtResource("1_t7y0s")
+script = ExtResource("2_1pxgl")
+
+[node name="Black" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(773.5, 878.5)
+scale = Vector2(8.20156, 6.25625)
+texture = ExtResource("1_jgvri")
+
+[node name="Ground Group" type="Node" parent="."]
+
+[node name="Ground" parent="Ground Group" instance=ExtResource("1")]
 position = Vector2(588.758, 605.86)
 
-[node name="Ground2" parent="." instance=ExtResource("1")]
+[node name="Ground2" parent="Ground Group" instance=ExtResource("1")]
 position = Vector2(870.199, 536.054)
 
-[node name="Ground3" parent="." instance=ExtResource("1")]
+[node name="Ground3" parent="Ground Group" instance=ExtResource("1")]
 position = Vector2(307, 536.562)
 
+[node name="Ground4" parent="Ground Group" instance=ExtResource("1")]
+position = Vector2(-44, 536.562)
+
+[node name="Ground5" parent="Ground Group" instance=ExtResource("1")]
+position = Vector2(1222, 536.054)
+
+[node name="Ground6" parent="Ground Group" instance=ExtResource("1")]
+position = Vector2(-400, 536.562)
+
+[node name="Ground7" parent="Ground Group" instance=ExtResource("1")]
+position = Vector2(-614, 395)
+rotation = 1.5708
+
+[node name="Ground8" parent="Ground Group" instance=ExtResource("1")]
+position = Vector2(1434, 395)
+rotation = 1.5708
+
+[node name="Tree Group" type="Node" parent="."]
+
+[node name="Tree" parent="Tree Group" instance=ExtResource("5_8aen3")]
+position = Vector2(264, 419)
+
+[node name="Tree2" parent="Tree Group" instance=ExtResource("5_8aen3")]
+position = Vector2(873, 417)
+
+[node name="Tree3" parent="Tree Group" instance=ExtResource("5_8aen3")]
+position = Vector2(1207, 416)
+
+[node name="Tree4" parent="Tree Group" instance=ExtResource("5_8aen3")]
+position = Vector2(-62, 417)
+
+[node name="Summoner" type="Sprite2D" parent="." node_paths=PackedStringArray("sound", "treeGroup", "background")]
+position = Vector2(583, 529)
+texture = ExtResource("6_c2nif")
+script = ExtResource("7_112wt")
+sound = NodePath("../AudioStreamPlayer2D")
+treeGroup = NodePath("../Tree Group")
+sound1 = ExtResource("1_t7y0s")
+sound2 = ExtResource("8_cl3ng")
+background = NodePath("../Black")
+
+[node name="Area2D" type="Area2D" parent="Summoner"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Summoner/Area2D"]
+position = Vector2(2, -11.5)
+shape = SubResource("RectangleShape2D_vetux")
+
 [node name="Player" parent="." instance=ExtResource("2_hucc5")]
-position = Vector2(379.05, 376)
-script = ExtResource("3_cblhg")
+position = Vector2(-496, 315)
+
+[connection signal="body_entered" from="Summoner/Area2D" to="Summoner" method="_on_area_2d_body_entered"]
